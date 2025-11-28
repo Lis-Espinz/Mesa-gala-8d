@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>🌟 ¡Hola estrellas! Escriban su nombre y descubran su mesa. ¡La gala comienza ya! ✨💃</title>
+
+<style>
+    body {
+        font-family: "Arial";
+        background: linear-gradient(to right, #5A000D 0%, #000000 100%);
+        color: gold;
+        text-align: center;
+        padding: 40px;
+    }
+
+    h1 {
+        font-size: 38px;
+        margin-bottom: 10px;
+        text-shadow: 0 0 10px black;
+    }
+
+    .sub {
+        font-size: 18px;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    input {
+        padding: 10px;
+        width: 280px;
+        border-radius: 10px;
+        border: black;
+        margin-top: 15px;
+        background-color: white;
+        color: black;
+    }
+
+    button {
+        padding: 12px 20px;
+        font-size: 18px;
+        margin-left: 10px;
+        border-radius: 10px;
+        border: none;
+        background: gold;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    #resultado {
+        margin-top: 30px;
+        font-size: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 20px;
+        border-radius: 12px;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        border: 2px solid white;
+        color: white;
+        text-align: center;
+        box-shadow: 0 0 10px white;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🌟 ¡Hola estrellas! Descubran su mesa. ¡La gala comienza ya! ✨</h1>
+<div class="sub">Ingresa el nombre de la alumna para descubrir su mesa y acompañantes </div>
+
+<input type="text" id="nombre" placeholder="Escribe el nombre aquí...">
+<button onclick="buscarMesa()">Buscar</button>
+
+<div id="resultado"></div>
+
+<script>
+const datos = {
+    "AHUMADA ARANCIBIA AMELIA IGNACIA": { mesa: 1, acompanantes: ["Karla Arancibia","Leandro Balbian","Amanda Bahamondes","Constanza Caceres","Omar Bahamondes"] },
+    "ASTORGA ESPINOZA COLOMBINA AURORA": { mesa: 2, acompanantes: ["Sergio Astorga","Jacqueline Espinoza"] },
+    "GUTIÉRREZ ESPINOZA QAMRA": { mesa: 2, acompanantes: ["Lisaymar Espinoza","Alejandro Osorio"] },
+    "TERÁN LÓPEZ VALENTINA DE LOS ÁNGELES": { mesa: 2, acompanantes: ["Acompañante 1"] },
+    "PARDO VILLALOBOS ALEN ALSIA": { mesa: 3, acompanantes: ["Acompañante 1","Acompañante 2"] },
+    "GARCÍA RAMÍREZ MARÍA IGNACIA": { mesa: 3, acompanantes: ["Antonia García","Laura Ramírez","Pablo Canteros","Gonzalo García"] },
+    "ARREDONDO REYES LUCIANA ZAHÁRA": { mesa: 4, acompanantes: ["Acompañante 1","Acompañante 2"] },
+    "CONTRERAS MADARIAGA CATALINA ELOIZA": { mesa: 4, acompanantes: ["Elizabeth Contreras"] },
+    "GARCÍA CÁCERES ANAÍS ARANZA": { mesa: 4, acompanantes: ["Jordan Servantes","Rocío Cáceres"] },
+    "DROGUETT SUITT GIULIANA LISSETH": { mesa: 5, acompanantes: ["Lisseth Suitt"] },
+    "FERNÁNDEZ MUNITA EMILIA JOSÉ": { mesa: 5, acompanantes: ["Nayari Munita","Cristian Fernández"] },
+    "RAMOS VACCARO VIOLETA": { mesa: 5, acompanantes: ["Camila Vaccaro","Gonzalo Ramos"] },
+    "COLOMA MORALES ISIDORA AGUSTINA": { mesa: 6, acompanantes: ["Acompañante 1","Acompañante 2"] },
+    "LÓPEZ BELTRÁN RAFAELA EMILIA": { mesa: 6, acompanantes: ["Paola Beltrán","María Luisa Carrasco"] },
+    "PULIDO VALDIVIA LUCÍA ANTONIA": { mesa: 6, acompanantes: ["Pía Valdivia","Javier Pulido"] },
+    "BAEZA BÓRQUEZ MATILDA EMILIA": { mesa: 7, acompanantes: ["Angelina Bórquez","Acompañante Emilia"] },
+    "TORO VÁSQUEZ PIA VALENTINA": { mesa: 7, acompanantes: ["Tomás Toro","Valentina Vásquez"] },
+    "OYARCE OYARCE MATILDA PAZ": { mesa: 7, acompanantes: ["Daniela Oyarce","Enzo Oyarce"] },
+    "CONTRERAS MÉNDEZ ALMENDRA ANTONIA": { mesa: 8, acompanantes: ["Gretty Méndez","Acompañante 1","Acompañante 2"] },
+    "SOLIS CAYUPE SOFÍA ESTER": { mesa: 8, acompanantes: ["Pamela Cayupe","Felipe Solis"] },
+    "ANTILLANCA CANALES AMANDA": { mesa: 8, acompanantes: ["Constanza Canales"] },
+    "PEREDO LABRA RAFAELA SOFÍA PAZ": { mesa: 9, acompanantes: ["Nathalie Labra","Martina Peredo","María Canales","Julio Labra"] },
+    "TRASLAVIÑA CASANOVA PASCALLE ISABELLA": { mesa: 9, acompanantes: ["Carolina Casanova","Jorge Traslaviña","Montserrat León"] },
+    "TOLEDO CARREÑO JAVIERA PAZ": { mesa: 10, acompanantes: ["Christian Toledo","Orieta Carreño","Anaís Toledo"] },
+    "SÁENZ FLORES RAFAELA AMPARO": { mesa: 10, acompanantes: ["Acompañante 1","Acompañante 2"] },
+    "GARCÍA OCARES ANTONELLA ISIDORA": { mesa: 11, acompanantes: ["Aracelly Ocares","Diego García"] },
+    "SILVA SIBOINO AMANDA ISIDORA": { mesa: 11, acompanantes: ["Acompañante 1"] },
+    "VÁSQUEZ CONTRERAS MARÍA FERNANDA": { mesa: 12, acompanantes: ["Diana Ruiz","Luisa Contreras","Maximiliano Contreras"] },
+    "LEONOR": { mesa: 12, acompanantes: ["Rafael","Victoria"] }
+};
+
+function buscarMesa() {
+    const texto = document.getElementById("nombre").value.toUpperCase().trim();
+    const area = document.getElementById("resultado");
+    let resultado = null;
+
+    for (const nombreCompleto in datos) {
+        if (nombreCompleto.includes(texto)) { // Coincidencia parcial
+            resultado = { nombre: nombreCompleto, ...datos[nombreCompleto] };
+            break;
+        }
+    }
+
+    if (resultado) {
+        // Solo el primer nombre
+        const primerNombre = resultado.nombre.split(" ")[2];
+
+        // Acompañantes con emoticón general
+        const acompanantesConEmojis = resultado.acompanantes.map(a => `${a} ✨`).join("<br>");
+
+        area.innerHTML = `
+            <h2 style="color:white;">✨ ¡Hola ${primerNombre}! ✨</h2>
+            <p style="color:white; font-size:18px;"><strong>Tu mesa asignada es el número ${resultado.mesa}.</strong></p>
+            <p style="color:white; font-size:16px;"><strong>👯‍♀️ Acompañantes:</strong><br>${acompanantesConEmojis}</p>
+            <p style="color:white; font-size:18px; margin-top:15px;">✨ ¡Lista para brillar! Esta es tu mesa, disfruta la gala. 💃⭐</p>
+        `;
+    } else {
+        area.innerHTML = "❌ Nombre no encontrado. Verifica la ortografía.";
+    }
+}
+</script>
+
+</body>
+</html>
